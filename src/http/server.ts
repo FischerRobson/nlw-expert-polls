@@ -1,8 +1,14 @@
 import fastify from 'fastify'
 import { routes } from './controllers/routes'
 import { ZodError } from 'zod'
+import fastifyCookie from '@fastify/cookie'
 
 const app = fastify()
+
+app.register(fastifyCookie, {
+  secret: 'polls-cookie-secret',
+  hook: 'onRequest',
+})
 
 app.register(routes)
 
