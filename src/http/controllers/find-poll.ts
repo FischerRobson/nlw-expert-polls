@@ -10,7 +10,11 @@ export async function findPoll(req: FastifyRequest, res: FastifyReply) {
 
   const { id } = paramsSchema.parse(req.params)
 
-  const { poll } = await pollService.get(id)
+  try {
+    const { poll } = await pollService.get(id)
 
-  return res.status(HttpStatusCode.OK).send({ poll })
+    return res.status(HttpStatusCode.OK).send({ poll })
+  } catch (e) {
+    return res.status(HttpStatusCode.NotFound).send()
+  }
 }

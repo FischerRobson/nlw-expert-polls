@@ -2,8 +2,12 @@ import fastify from 'fastify'
 import { routes } from './controllers/routes'
 import { ZodError } from 'zod'
 import fastifyCookie from '@fastify/cookie'
+import fastifyWebsocket from '@fastify/websocket'
+import { websocketRoutes } from '../ws/websocket-routes'
 
 const app = fastify()
+
+app.register(fastifyWebsocket)
 
 app.register(fastifyCookie, {
   secret: 'polls-cookie-secret',
@@ -11,6 +15,7 @@ app.register(fastifyCookie, {
 })
 
 app.register(routes)
+app.register(websocketRoutes)
 
 app.listen({ port: 3333 }).then(() => {
   console.log('Server running...')
